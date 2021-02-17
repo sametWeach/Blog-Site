@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<etiket>
+
+
+<div class="widget">
+    <h2 class="widget-title">Etiketler</h2>
+    <div class="link-widget">
+        <ul>
+            @foreach (var tag in Model)
+            {
+                <li><a href="/Etiket/Index/@tag.Id">#@tag.Ad (@tag.makale.Count)</a></li>
+
+            }
+
+        </ul>
+    </div><!-- end link-widget -->
+</div>

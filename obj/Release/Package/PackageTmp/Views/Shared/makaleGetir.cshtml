@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<makale>
+
+@helper Kisalt(string metin)
+{
+
+if (metin.Length > 300)
+{
+    @metin.Substring(0, 300);
+}
+else
+{
+    @metin;
+}
+
+}
+
+
+
+
+
+@foreach (var mk in Model)
+{
+
+    <div class="blog-box row pt-4">
+        <div class="col-md-4">
+            <div class="post-media">
+
+                <a href="/Makale/Detay/@mk.Id" title="">
+                    <img src="@mk.resim.OrtaResimYol" alt="" class="img-fluid">
+                    <div class="hovereffect"></div>
+                </a>
+            </div><!-- end media -->
+        </div><!-- end col -->
+
+        <div class="blog-meta big-meta col-md-8">
+            <span class="bg-aqua"><a href="/Kategori/Index/@mk.kategori.Id" title="">@mk.kategori.Ad</a></span>
+            <h4><a href="/Makale/Detay/@mk.Id" title="">@mk.Baslik</a></h4>
+
+            <small><a href="#" title=""><i class="fa fa-eye"></i> @mk.Goruntulenme</a></small>
+            <small><a href="/Makale/TariheGoreSirala?yil=@mk.YayinTarihi.Year&ay=@mk.YayinTarihi.Month" title="">@mk.YayinTarihi.ToString("dd.MM.yyyy")</a></small>
+            <small><a href="Yazar/Index/@mk.YazarID" title="">@mk.kullanici.Ad @mk.kullanici.Soyad</a></small>
+            <small><a href="#" title="">Yorumlar : @mk.Yorum.Count</a></small>
+            <small><a href="#" title="">Beğeniler : @mk.Begeni</a></small>
+            <p>     @Html.Raw(@Kisalt(mk.Icerik))     </p>
+        </div><!-- end meta -->
+    </div><!-- end blog-box -->
+
+
+}

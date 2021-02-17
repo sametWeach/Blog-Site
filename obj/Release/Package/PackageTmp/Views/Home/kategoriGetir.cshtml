@@ -1,0 +1,19 @@
+﻿@model IEnumerable<kategori>
+
+@{ Layout= null;
+    
+    }
+
+    <div class="widget">
+        <h2 class="widget-title">Popüler Kategoriler</h2>
+        <div class="link-widget">
+            <ul>
+                @foreach (var kat in Model)
+                {
+                    <li><a href="/Kategori/Index/@kat.Id">@kat.Ad (@kat.makale.Count)</a></li>
+                
+                }
+
+            </ul>
+        </div><!-- end link-widget -->
+    </div>

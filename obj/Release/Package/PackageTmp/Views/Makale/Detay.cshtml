@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Detay";
+}
+
+@model  makale
+
+@helper SureYaz(DateTime Tarih)
+{
+    TimeSpan Sure = DateTime.Now - Tarih;
+    if (Sure.TotalMilliseconds < 0)
+    {
+        <small></small>
+
+
+    }
+    else if (Sure.TotalMinutes < 1)
+    {
+        <small>Şimdi</small>
+    }
+    else if (Sure.TotalHours < 1)
+    {
+        <small>@Sure.Minutes Dakika Önce</small>
+    }
+    else if (Sure.TotalHours < 1)
+    {
+        <small>@Sure.Hours Saat Önce</small>
+    }
+    else
+    {
+        <small>@Tarih.ToString("dd.MM.yyyy") Tarihinde</small>
+    }
+
+
+}
+
+
+<div class="page-wrapper">
+    <div class="blog-title-area">
+        <span class="color-green"><a href="/Kategori/Index/@Model.kategori.Id" title="">@Model.kategori.Ad</a></span>
+
+        <h3>@Model.Baslik</h3>
+
+        <div class="blog-meta big-meta">
+            <small><a href="Makale/TariheGoreSirala?yil=@Model.YayinTarihi.Year&ay=@Model.YayinTarihi.Month" title="">@Model.YayinTarihi.ToString("dd MMMM yyyy")</a></small>
+            <small><a href="/Yazar/Index/@Model.YazarID" title="">@Model.kullanici.Ad @Model.kullanici.Soyad</a></small>
+            <small><a href="#" title=""><i class="fa fa-eye"></i> @Model.Goruntulenme</a></small>
+            <small><a href="#Yorum" title="">Yorumlar : @Model.Yorum.Count</a></small>
+            <small><a href="#" title="">Beğeniler : @Model.Begeni</a></small>
+        </div><!-- end meta -->
+
+        <div class="post-sharing">
+            <ul class="list-inline">
+                <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Facebookta Paylaş</span></a></li>
+                <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Twitterda Paylaş</span></a></li>
+                <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+        </div><!-- end post-sharing -->
+    </div><!-- end title -->
+
+    <div class="single-post-media">
+        <img src=@Model.resim.BuyukResimYol alt="" class="img-fluid">
+    </div><!-- end media -->
+
+    <div class="blog-content">
+        <div class="">
+
+            @Html.Raw(Model.Icerik)   
+
+
+
+        </div><!-- end content -->
+
+        <div class="blog-title-area">
+            <div class="tag-cloud-single">
+                <span>Etiketler</span>
+
+               
+                    <small><a href="#" title=""></a></small>
+                
+
+
+            </div><!-- end meta -->
+
+            <div class="post-sharing">
+                <ul class="list-inline">
+                    <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span class="down-mobile">Share on Facebook</span></a></li>
+                    <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span class="down-mobile">Tweet on Twitter</span></a></li>
+                    <li><a href="#" class="gp-button btn btn-primary"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div><!-- end post-sharing -->
+        </div><!-- end title -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-spot clearfix">
+                    <div class="banner-img">
+                        <img src="upload/banner_01.jpg" alt="" class="img-fluid">
+                    </div><!-- end banner-img -->
+                </div><!-- end banner -->
+            </div><!-- end col -->
+        </div><!-- end row -->
+
+        <hr class="invis1">
+
+        <!-- Yazar Bilgisi -->
+
+        <div class="custombox authorbox clearfix">
+            <h4 class="small-title">Yazar</h4>
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <a href="/Yazar/Index/@Model.kullanici.Id"> <img src="@Model.kullanici.resim1.KucukResimYol" alt="" class="img-fluid rounded-circle"> </a>
+                </div><!-- end col -->
+
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <h4><a href="#">@Model.kullanici.Ad @Model.kullanici.Soyad</a></h4>
+
+
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end author-box -->
+
+        <hr class="invis1">
+
+
+
+        <hr class="invis1">
+
+
+        <!-- YORUMLAR -->
+        <div class="custombox clearfix">
+            <a id="Yorum" />
+            <h4 class="small-title">@Model.Yorum.Count Yorum</h4>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="comments-list">
+
+                        @foreach (var yorum in Model.Yorum)
+                        {
+                            <div class="media">
+                                <a class="media-left" href="#">
+                                    <img src="@yorum.kullanici.resim1.KucukResimYol" alt="" class="rounded-circle">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading user_name">@yorum.kullanici.Ad @yorum.kullanici.Soyad <small>@SureYaz(yorum.EklenmeTarihi)</small></h4>
+                                    <p>@yorum.icerik</p>
+                                    <a href="#" class="btn btn-primary btn-sm">Cevapla</a>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end custom-box -->
+
+        <hr class="invis1">
+
+
+        <!-- YORUM YAZ(BU KISMI SONRA DÜZENLE) -->
+        @{ kullanici k = new kullanici(); }
+        @if (ViewBag.Kullanici != null)
+        {
+
+
+
+            <div class="custombox clearfix">
+                <h4 class="small-title">Yorum Yaz</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class=" media" action="/Makale/YorumYaz" method="post">
+                            <a class="media-left" href="#">
+                                <img src="@ViewBag.Kullanici.resim1.KucukResimYol" alt="" style=" width:80px; height:80px;  " class="rounded-circle">
+                            </a>
+                            <div class="media-body pl-3">
+                                <h4 class="media-heading user_name">@ViewBag.Kullanici.Ad @ViewBag.Kullanici.Soyad</h4>
+                                <input type="hidden" name="YazarID" value="@ViewBag.Kullanici.Id" />
+                                <input type="hidden" name="MakaleId" value="@Model.Id" />
+                                <textarea class="form-control pb-5" name="Icerik" placeholder="Yorumunu Yaz..."></textarea>
+                                <button type="submit" class="btn  btn-lg mt-3 " style=" float:right;">Gönder</button>
+                            </div>
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+
+
+    </div>
+    </div>
